@@ -139,7 +139,8 @@ bool ReportModel::toOut(const Config *config, const QVector <int> indexes)
         }
 
         QTextStream out(&file);
-        out.setCodec("UTF-8");
+        //out.setCodec("UTF-8");
+        out.setEncoding(QStringConverter::Utf8);
         out << outText;
         file.close();
     }

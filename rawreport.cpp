@@ -55,10 +55,14 @@ bool RawReport::parseFile(QString file)
         return false;
 
     QTextStream in(&log);
-    if (profile->encoding == "ANSI")
+/* --broken
+    if (profile->encoding == "ANSI") {
         in.setCodec("ANSI");
+    }
+*/
+
     if (profile->encoding == "UTF-8")
-        in.setCodec("UTF-8");
+        in.setEncoding(QStringConverter::Utf8);
 
     QString data = in.readAll();
 

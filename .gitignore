@@ -31,7 +31,6 @@ ui_*.h
 qrc_*.cpp
 Thumbs.db
 *.res
-*.rc
 /.qmake.cache
 /.qmake.stash
 
@@ -74,9 +73,9 @@ Thumbs.db
 src/
 debug/
 release/
-file.rc
-ico.ico
+build/
 leaks.xml
 *.json
 *.png
 *.psd
+*.TMP
