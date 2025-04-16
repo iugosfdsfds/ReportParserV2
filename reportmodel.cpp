@@ -93,7 +93,8 @@ void ReportModel::updateView()
     endResetModel();
 }
 
-bool ReportModel::toOut(const Config *config, const QVector <int> indexes)
+/*Returns 0 - success, 1 - couldn't create out, 2 - no out file specified */
+int ReportModel::toOut(const Config *config, const QVector <int> indexes)
 {
     //combining model log lines
     QString outText = "";
@@ -131,21 +132,30 @@ bool ReportModel::toOut(const Config *config, const QVector <int> indexes)
     if (config->outToClip) {
         QGuiApplication::clipboard()->setText(outText);
     } else {
+        if (config->outFile.isEmpty()) {
+            qWarning("Выводной файл не указан");
+            return 2;
+        }
         QFile file(config->outFile);
 
         if (!file.open(QIODevice::WriteOnly)) {
             qWarning("Не удалось создать выводной файл");
-            return false;
+            return 1;
         }
 
         QTextStream out(&file);
-        //out.setCodec("UTF-8");
+
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
         out.setEncoding(QStringConverter::Utf8);
+#else
+        out.setCodec("UTF-8");
+#endif
+
         out << outText;
         file.close();
     }
 
-    return true;
+    return 0;
 }
 
 QPair<int, int> ReportModel::mergeLines(QVector<int> indexes)

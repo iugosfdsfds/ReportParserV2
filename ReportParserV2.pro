@@ -34,7 +34,8 @@ HEADERS += \
     lib/profile.h \
     mainwindow.h \
     rawreport.h \
-    reportmodel.h
+    reportmodel.h \
+    version.h
 
 FORMS += \
     dialogs/configwindow.ui \

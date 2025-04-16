@@ -4,6 +4,8 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 
+#include "version.h"
+
 ConfigWindow::ConfigWindow(QWidget *parent, Config *config, QString configFileName) :
     QDialog(parent),
     ui(new Ui::ConfigWindow)
@@ -11,6 +13,8 @@ ConfigWindow::ConfigWindow(QWidget *parent, Config *config, QString configFileNa
     ui->setupUi(this);
     _config = config;
     configFile = configFileName;
+    ui->label_verison->setText("v"+QString(APP_VERSION));
+
     updateLines();
 }
 

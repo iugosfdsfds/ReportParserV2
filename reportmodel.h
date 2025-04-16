@@ -33,10 +33,8 @@ public:
 
     void updateView();
 
-    bool toOut(const Config *config, const QVector <int> indexes = {});
+    int toOut(const Config *config, const QVector <int> indexes = {});
     QPair <int, int> mergeLines(QVector <int> indexes);
-
-    //void moveLine(int from, int to);
 
     void moveLines(QVector <int> indexes, bool moveUp, bool maxed = false);
 
@@ -53,15 +51,6 @@ public:
     virtual bool removeRows(int row, int count, const QModelIndex &parent);
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-
-    /*
-    virtual QMimeData *mimeData(const QModelIndexList &indexes) const;
-    virtual bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
-    virtual bool moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationChild);
-    */
-
-private slots:
-    //void lineMoved(int vFrom, int from, int to);
 };
 
 #endif // REPORTMODEL_H

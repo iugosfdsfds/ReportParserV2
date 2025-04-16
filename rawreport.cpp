@@ -55,14 +55,20 @@ bool RawReport::parseFile(QString file)
         return false;
 
     QTextStream in(&log);
-/* --broken
+
+// WIP, will be fixed later
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+
     if (profile->encoding == "ANSI") {
         in.setCodec("ANSI");
     }
-*/
 
     if (profile->encoding == "UTF-8")
-        in.setEncoding(QStringConverter::Utf8);
+        in.setCodec("UTF-8");
+
+#else
+    in.setEncoding(QStringConverter::Utf8);
+#endif
 
     QString data = in.readAll();
 
@@ -77,7 +83,7 @@ bool RawReport::parseFile(QString file)
 
     bool markUrgent = false;
     bool markReprint = false;
-    for (QString line : dataLines) { //magick goes here
+    for (const QString &line : qAsConst(dataLines)) { //magick goes here
 
         if ( (!line.contains(profile->nameStart, Qt::CaseInsensitive)) || (!line.contains(profile->nameEnd, Qt::CaseInsensitive)) )
             continue;

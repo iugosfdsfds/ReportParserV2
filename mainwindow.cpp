@@ -78,24 +78,12 @@ void MainWindow::initTables()
     ui->tableView_current->setModel(currentOrders);
     ui->tableView_current->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
     ui->tableView_current->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    //ui->tableView_current->verticalHeader()->setSectionsMovable(true);
 
     ui->tableView_all->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView_all->setModel(allOrders);
     ui->tableView_all->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
     ui->tableView_all->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    //ui->tableView_all->verticalHeader()->setSectionsMovable(true);
 
-    /*
-    ui->tableView_all->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    ui->tableView_all->setDragEnabled(true);
-    ui->tableView_all->setAcceptDrops(true);
-    ui->tableView_all->setDropIndicatorShown(true);
-    ui->tableView_all->setDragDropMode(QAbstractItemView::InternalMove);
-    */
-
-    //connect(ui->tableView_all->verticalHeader(), SIGNAL(sectionMoved(int, int, int)), allOrders, SLOT(lineMoved(int, int, int)));
-    //connect(ui->tableView_current->verticalHeader(), SIGNAL(sectionMoved(int, int, int)), currentOrders, SLOT(lineMoved(int, int, int)));
 }
 
 void MainWindow::deleteSelected(QTableView *table)
@@ -323,14 +311,20 @@ void MainWindow::on_pushButton_clearStyle_clicked()
 
 void MainWindow::on_pushButton_curExport_clicked()
 {
-    if ( currentOrders->toOut(config, getSelected(ui->tableView_current)) )
+    int status = currentOrders->toOut(config, getSelected(ui->tableView_current));
+    if (status == 0)
         ui->statusbar->showMessage("Файл сгенерирован", 3000);
+    else if (status == 2)
+        ui->statusbar->showMessage("Выводной файл не указан", 3000);
 }
 
 void MainWindow::on_pushButton_allExport_clicked()
 {
-    if ( allOrders->toOut(config, getSelected(ui->tableView_all)) )
+    int status = allOrders->toOut(config, getSelected(ui->tableView_all));
+    if (status == 0)
         ui->statusbar->showMessage("Файл сгенерирован", 3000);
+    else if (status == 2)
+        ui->statusbar->showMessage("Выводной файл не указан", 3000);
 }
 
 void MainWindow::on_lineEdit_inFile_textChanged(const QString &arg1)
