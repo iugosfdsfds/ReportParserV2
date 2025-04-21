@@ -6,6 +6,7 @@
 #include <QKeyEvent>
 #include <QMimeData>
 #include <QFileDialog>
+#include <QMessageBox>
 
 #include "rawreport.h"
 
@@ -25,8 +26,17 @@ MainWindow::MainWindow(QWidget *parent)
         ui->statusbar->showMessage("Ошибка загрузки настроек", 3000);
 
     profile = new Profile();
-    if (config->lastUsedProfile != "")
-        profile->fromJson(config->lastUsedProfile);
+    if (config->lastUsedProfile.isEmpty() || config->lastUsedProfile.isNull()) {
+        QMessageBox msgBox;
+        msgBox.setText("Внимание! Профиль не был загружен");
+        msgBox.exec();
+    } else {
+        if (!profile->fromJson(config->lastUsedProfile)) {
+            QMessageBox msgBox;
+            msgBox.setText("Внимание! Профиль был загружен с ошибкой");
+            msgBox.exec();
+        }
+    }
 
     cfgWin = new ConfigWindow(this, config, configFileName);
     prfWin = new ProfileSetter(this, profile, config);
