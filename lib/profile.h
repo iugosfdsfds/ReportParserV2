@@ -8,7 +8,6 @@
 struct Profile
 {
     QString splitter = "\\n";
-    QString encoding = "ANSI";
 
     QString nameStart = "\"0 ";
     QString nameEnd = "_000";
@@ -22,6 +21,8 @@ struct Profile
     QString countEnd = "шт";
     int countOffsets[2] = {0, 0}; // 0-countStartOffset, 1-countEndOffset
     bool countsEnabled = true;
+
+    bool lookForMarkers = false;
 
     bool fromJson(const QString file);
     bool toJson(const QString file);

@@ -23,6 +23,7 @@ SOURCES += \
     lib/profile.cpp \
     main.cpp \
     mainwindow.cpp \
+    outimporter.cpp \
     rawreport.cpp \
     reportmodel.cpp
 
@@ -33,6 +34,7 @@ HEADERS += \
     lib/logline.h \
     lib/profile.h \
     mainwindow.h \
+    outimporter.h \
     rawreport.h \
     reportmodel.h \
     version.h

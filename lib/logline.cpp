@@ -16,20 +16,21 @@ LogLine::LogLine(QString Name, int Count)
 
 bool LogLine::operator ==(const LogLine other) const
 {
-    return ((this->index == other.index) && (this->clearName == other.clearName) && (this->index == other.index));
+    return ((this->index == other.index) && (this->clearName == other.clearName));
 }
 
 void LogLine::updateData()
 {
-    QString normName = name;
-    normName.replace(" ", "_");
-    index = normName.split('_').at(0);
+    name.replace(" ", "_");
+    name.replace("(", "_");
+    name.replace(")", "_");
+
+    index = name.split('_').at(0);
     bool ok = false;
-    QString temp = index;
-    temp.toInt(&ok);
-    if (ok) {
+    index.toInt(&ok);
+    if (ok && !index.isEmpty()) {
         clearName = name;
-        clearName.remove(index+'_');
+        clearName.remove(index+"_");
         clearName = clearName.section("", 0, clearName.indexOf("__"));
         info = false;
     } else {

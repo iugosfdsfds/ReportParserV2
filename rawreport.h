@@ -28,6 +28,8 @@ private:
 
     bool hasDubs(const QString lineName) const;
 
+    QString getNextSegment(QDataStream& dataStream);
+
 };
 
 #endif // RAWREPORT_H

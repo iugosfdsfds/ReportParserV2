@@ -24,15 +24,6 @@ ProfileSetter::~ProfileSetter()
 
 void ProfileSetter::updateGUI()
 {
-    if (profile->encoding == "ANSI") {
-        ui->radioButton_ansi->setChecked(true);
-        ui->radioButton_utf8->setChecked(false);
-    }
-    if (profile->encoding == "UTF-8") {
-        ui->radioButton_ansi->setChecked(false);
-        ui->radioButton_utf8->setChecked(true);
-    }
-
     ui->lineEdit_splitter->setText(profile->splitter);
 
     ui->lineEdit_nameStart->setText(profile->nameStart);
@@ -46,6 +37,7 @@ void ProfileSetter::updateGUI()
     }
     ui->lineEdit_filter->setText(temp);
     ui->checkBox_allowDub->setChecked(profile->allowDubs);
+    ui->checkBox_findMarks->setChecked(profile->lookForMarkers);
 
     ui->checkBox_countEnabled->setChecked(profile->countsEnabled);
     ui->lineEdit_countStart->setText(profile->countStart);
@@ -65,11 +57,6 @@ void ProfileSetter::updateProfile()
 {
     profile->filters.clear();
 
-    if (ui->radioButton_ansi->isChecked())
-        profile->encoding = "ANSI";
-    if (ui->radioButton_utf8->isChecked())
-        profile->encoding = "UTF-8";
-
     profile->splitter = ui->lineEdit_splitter->text();
 
     profile->nameStart = ui->lineEdit_nameStart->text();
@@ -84,6 +71,7 @@ void ProfileSetter::updateProfile()
         profile->filters.push_back( {filter, inverted} );
     }
     profile->allowDubs = ui->checkBox_allowDub->isChecked();
+    profile->lookForMarkers = ui->checkBox_findMarks->isChecked();
 
     profile->countsEnabled = ui->checkBox_countEnabled->isChecked();
     profile->countStart = ui->lineEdit_countStart->text();

@@ -8,7 +8,6 @@
 #include <QJsonValue>
 
 #define SPLITTER "splitter"
-#define ENCODING "encoding"
 
 #define NAME_START "nameStart"
 #define NAME_END "nameEnd"
@@ -21,6 +20,7 @@
 #define COUNT_END "countEnd"
 #define COUNT_OFFSETS "countOffsets"
 #define COUNTS_ENABLED "countsEnabled"
+#define MARKERS_ENABLED "markersEnabled"
 
 #define ORDER_INVERTED "invertedListOrder"
 
@@ -42,8 +42,6 @@ bool Profile::fromJson(const QString file)
     //general config
     if (root.contains(SPLITTER))
         splitter = root.value(SPLITTER).toString();
-    if (root.contains(ENCODING))
-        encoding = root.value(ENCODING).toString();
 
     //name parsing config
     if (root.contains(NAME_START))
@@ -67,6 +65,9 @@ bool Profile::fromJson(const QString file)
     }
     if (root.contains(ALLOW_DUBS))
         allowDubs = root.value(ALLOW_DUBS).toBool();
+
+    if (root.contains(MARKERS_ENABLED))
+        lookForMarkers = root.value(MARKERS_ENABLED).toBool();
 
     if (root.contains(ORDER_INVERTED))
         orderInverted = root.value(ORDER_INVERTED).toBool();
@@ -101,7 +102,6 @@ bool Profile::toJson(const QString file) //loading from file
 
     //general config
     root.insert(SPLITTER, splitter);
-    root.insert(ENCODING, encoding);
 
     //name parsing config
     root.insert(NAME_START, nameStart);
@@ -122,6 +122,8 @@ bool Profile::toJson(const QString file) //loading from file
     root.insert(FILTERS, Jfilters);
 
     root.insert(ALLOW_DUBS, allowDubs);
+
+    root.insert(MARKERS_ENABLED, lookForMarkers);
 
     root.insert(ORDER_INVERTED, orderInverted);
 

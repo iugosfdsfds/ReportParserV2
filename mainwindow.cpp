@@ -9,6 +9,7 @@
 #include <QMessageBox>
 
 #include "rawreport.h"
+#include "outimporter.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -130,6 +131,19 @@ bool MainWindow::updateCurrent()
         return false;
     }
     currentOrders->setLines(&rep);
+    return true;
+}
+
+bool MainWindow::loadCSVFile()
+{
+
+
+    QVector <LogLine> lines = OutImporter::import(this, config->outFile);
+
+    allOrders->clearAll();
+    allOrders->addLines(lines);
+    allOrders->updateView();
+
     return true;
 }
 
@@ -412,3 +426,9 @@ void MainWindow::on_pushButton_insertNote_clicked()
     LogLine temp(ui->lineEdit_addNote->text(), 1);
     allOrders->addLines(temp);
 }
+
+void MainWindow::on_action_open_triggered()
+{
+    loadCSVFile();
+}
+

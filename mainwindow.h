@@ -86,6 +86,8 @@ private slots:
 
     void on_pushButton_insertNote_clicked();
 
+    void on_action_open_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -105,6 +107,8 @@ private:
     int selectedPreset = -1;
 
     bool preventDelete = false;
+
+    bool loadCSVFile();
 
 protected:
     virtual void keyReleaseEvent(QKeyEvent *event);
