@@ -70,7 +70,7 @@ bool RawReport::parseFile(QString file)
         if (!filtersOK(line))
             continue;
 
-        //find name indexes
+        //look for name
         int nameStartIndex, nameEndIndex;
         QString name, count;
         nameStartIndex = line.lastIndexOf(profile->nameStart, -1, Qt::CaseInsensitive);
@@ -162,7 +162,7 @@ QString RawReport::getNextSegment(QDataStream& dataStream)
     } else {
         localSplitter = profile->splitter.toUtf8();
     }
-    char buf;
+    QChar buf;
     QByteArray data;
     while (!dataStream.atEnd()) {
         if (data.endsWith(localSplitter))

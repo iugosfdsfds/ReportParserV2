@@ -13,7 +13,7 @@ QVector<LogLine> OutImporter::import(QWidget *parent, QString path)
         return QVector <LogLine> ();
 
     QFile file(fileName);
-    if (!file.open(QIODeviceBase::ReadOnly))
+    if (!file.open(QIODevice::ReadOnly))
         return QVector <LogLine> ();
 
     QTextStream in(&file);
