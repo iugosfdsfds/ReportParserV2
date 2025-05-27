@@ -38,7 +38,7 @@ LogLine RawReport::getLine(int line) const
 bool RawReport::filtersOK(QString text)
 {
     bool ok = true;
-    for (auto filter : profile->filters) {
+    for (auto& filter : profile->filters) {
         if (filter.second) {
             if (text.contains(filter.first))
                 ok = false;
@@ -162,13 +162,13 @@ QString RawReport::getNextSegment(QDataStream& dataStream)
     } else {
         localSplitter = profile->splitter.toUtf8();
     }
-    QChar buf;
+    char buf;
     QByteArray data;
     while (!dataStream.atEnd()) {
         if (data.endsWith(localSplitter))
             break;
 
-        dataStream >> buf;
+        dataStream.readRawData(&buf, sizeof(buf));
         data.append(buf);
     }
     QString out = QString::fromLocal8Bit(data);

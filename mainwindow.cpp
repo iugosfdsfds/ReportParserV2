@@ -115,7 +115,7 @@ QVector<int> MainWindow::getSelected(QTableView *table)
     QItemSelectionModel * selection = table->selectionModel();
 
     QVector <int> indexes;
-    for (auto index : selection->selectedRows()) {
+    for (auto& index : selection->selectedRows()) {
         if (!indexes.contains(index.row()))
             indexes.push_back(index.row());
     }
@@ -222,7 +222,7 @@ void MainWindow::on_pushButton_curAdd_clicked()
     else
     {
         QVector <LogLine> newLines;
-        for (int index : indexes) {
+        for (int& index : indexes) {
             newLines.push_back(currentOrders->getAt(index));
         }
         allOrders->addLines(newLines);
@@ -282,12 +282,12 @@ void MainWindow::on_pushButton_reprint_clicked()
 {
     QVector <int> indexes;
     indexes = getSelected(ui->tableView_all);
-    for (int i : indexes) {
+    for (int& i : indexes) {
         allOrders->changeReprint(i);
     }
 
     indexes = getSelected(ui->tableView_current);
-    for (int i : indexes) {
+    for (int& i : indexes) {
         currentOrders->changeReprint(i);
     }
 
@@ -298,12 +298,12 @@ void MainWindow::on_pushButton_urdent_clicked()
 {
     QVector <int> indexes;
     indexes = getSelected(ui->tableView_all);
-    for (int i : indexes) {
+    for (int& i : indexes) {
         allOrders->changeUrgent(i);
     }
 
     indexes = getSelected(ui->tableView_current);
-    for (int i : indexes) {
+    for (int& i : indexes) {
         currentOrders->changeUrgent(i);
     }
 
@@ -314,12 +314,12 @@ void MainWindow::on_pushButton_info_clicked()
 {
     QVector <int> indexes;
     indexes = getSelected(ui->tableView_all);
-    for (int i : indexes) {
+    for (int& i : indexes) {
         allOrders->changeInfo(i);
     }
 
     indexes = getSelected(ui->tableView_current);
-    for (int i : indexes) {
+    for (int& i : indexes) {
         currentOrders->changeInfo(i);
     }
 }
@@ -391,6 +391,8 @@ void MainWindow::permitDelete()
 void MainWindow::on_pushButton_moveTop_clicked()
 {
     QVector <int> indexes = getSelected(ui->tableView_all);
+    if (indexes.isEmpty())
+        return;
     if (indexes.first() == 0) return;
     allOrders->moveLines(getSelected(ui->tableView_all), true, true);
     ui->tableView_all->selectionModel()->select(QItemSelection(allOrders->index(0, 0), allOrders->index(indexes.last()-indexes.first(), 1)), QItemSelectionModel::ClearAndSelect);
@@ -399,6 +401,8 @@ void MainWindow::on_pushButton_moveTop_clicked()
 void MainWindow::on_pushButton_moveBottom_clicked()
 {
     QVector <int> indexes = getSelected(ui->tableView_all);
+    if (indexes.isEmpty())
+        return;
     if (indexes.last() == allOrders->getSize()-1) return;
     allOrders->moveLines(getSelected(ui->tableView_all), false, true);
     ui->tableView_all->selectionModel()->select(QItemSelection(allOrders->index(allOrders->getSize()-1-(indexes.last()-indexes.first()), 0), allOrders->index(allOrders->getSize()-1, 1)), QItemSelectionModel::ClearAndSelect);
@@ -407,6 +411,8 @@ void MainWindow::on_pushButton_moveBottom_clicked()
 void MainWindow::on_pushButton_moveUp_clicked()
 {
     QVector <int> indexes = getSelected(ui->tableView_all);
+    if (indexes.isEmpty())
+        return;
     if (indexes.first() == 0) return;
     allOrders->moveLines(indexes, true);
     ui->tableView_all->selectionModel()->select(QItemSelection(allOrders->index(indexes.first()-1, 0), allOrders->index(indexes.last()-1, 1)), QItemSelectionModel::ClearAndSelect);
@@ -415,6 +421,8 @@ void MainWindow::on_pushButton_moveUp_clicked()
 void MainWindow::on_pushButton_moveDown_clicked()
 {
     QVector <int> indexes = getSelected(ui->tableView_all);
+    if (indexes.isEmpty())
+        return;
     if (indexes.last() == allOrders->getSize()-1) return;
     allOrders->moveLines(getSelected(ui->tableView_all), false);
     ui->tableView_all->selectionModel()->select(QItemSelection(allOrders->index(indexes.first()+1, 0), allOrders->index(indexes.last()+1, 1)), QItemSelectionModel::ClearAndSelect);

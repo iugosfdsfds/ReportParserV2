@@ -62,7 +62,7 @@ void ConfigWindow::on_pushButton_apply_clicked()
 
 void ConfigWindow::on_pushButton_selectOut_clicked()
 {
-    QString _outFileName = QFileDialog::getSaveFileName(this, "Укажите размещение out файла", QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation).first(), "CSV (*.csv);;Текстовый файл (*.txt);;Иное");
+    QString _outFileName = QFileDialog::getSaveFileName(this, "Укажите размещение out файла", QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation).at(0), "CSV (*.csv);;Текстовый файл (*.txt);;Иное");
     if (_outFileName != "") {
         ui->lineEdit_outFile->setText(_outFileName);
     }

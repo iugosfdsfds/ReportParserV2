@@ -29,7 +29,7 @@ void ProfileSetter::updateGUI()
     ui->lineEdit_nameStart->setText(profile->nameStart);
     ui->lineEdit_nameEnd->setText(profile->nameEnd);
     QString temp = "";
-    for (auto filter : profile->filters) {
+    for (auto& filter : profile->filters) {
         if (filter.second)
             temp += "!";
         temp += filter.first;
@@ -63,7 +63,7 @@ void ProfileSetter::updateProfile()
     profile->nameEnd = ui->lineEdit_nameEnd->text();
     QString temp = ui->lineEdit_filter->text();
     QStringList filters = temp.split(";");
-    for (auto filter : filters) {
+    for (auto& filter : filters) {
         if (filter == "")
             continue;
         bool inverted = filter.startsWith("!");
@@ -88,7 +88,7 @@ void ProfileSetter::updateProfile()
 void ProfileSetter::on_pushButton_apply_clicked()
 {
     updateProfile();
-    emit(applied());
+    emit applied();
     this->close();
 }
 

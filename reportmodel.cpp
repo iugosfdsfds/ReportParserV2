@@ -21,9 +21,9 @@ QVector<LogLine> ReportModel::getLines() const
 
 void ReportModel::setLines(RawReport *report)
 {
-    layoutAboutToBeChanged();
+    emit layoutAboutToBeChanged();
     lines = report->getLines();
-    layoutChanged();
+    emit layoutChanged();
 
 }
 
@@ -58,7 +58,7 @@ void ReportModel::changeInfo(int index)
 void ReportModel::addLines(QVector<LogLine> newLines)
 {
     beginResetModel();
-    for (LogLine line : newLines) {
+    for (LogLine& line : newLines) {
         lines.push_back(line);
     }
     endResetModel();
@@ -198,7 +198,7 @@ QPair<int, int> ReportModel::mergeLines(QVector<int> indexes)
             doneLines.first++;
         }
         QVector <LogLine>::iterator it = lines.begin() + sectors.at(i).first; //inserting from temp to the same place
-        for (LogLine line : tempLines) {
+        for (LogLine& line : tempLines) {
             lines.insert(it, line);
             doneLines.second++;
             ++it;
@@ -227,12 +227,12 @@ void ReportModel::moveLines(QVector<int> indexes, bool moveUp, bool maxed)
         if (maxed) {
             QVector <LogLine> temp = lines.mid(indexes.first(), indexes.last()-indexes.first()+1);
             lines.erase(lines.begin()+indexes.first(), lines.begin()+indexes.last()+1);
-            for (LogLine l : temp) {
+            for (LogLine& l : temp) {
                 lines.push_back(l);
             }
         } else lines.move(indexes.last()+1, indexes.first());
     }
-    emit(dataChanged( createIndex(0, 0), createIndex(lines.size()-1, 1 ) ));
+    emit dataChanged( createIndex(0, 0), createIndex(lines.size()-1, 1 ) );
     //endResetModel();
 }
 
@@ -297,7 +297,7 @@ bool ReportModel::setData(const QModelIndex &index, const QVariant &value, int r
                     return false;
                 lines[index.row()].name = value.toString();
                 lines[index.row()].updateData();
-                dataChanged(index, index);
+                emit dataChanged(index, index);
                 return true;
                 break;
             case 1:
@@ -306,7 +306,7 @@ bool ReportModel::setData(const QModelIndex &index, const QVariant &value, int r
                 if (!ok)
                     return false;
                 lines[index.row()].count = value.toInt();
-                dataChanged(index, index);
+                emit dataChanged(index, index);
                 return true;
                 break;
         }
@@ -348,12 +348,3 @@ QVariant ReportModel::headerData(int section, Qt::Orientation orientation, int r
     }
     return QVariant();
 }
-
-/*
-void ReportModel::lineMoved(int vFrom, int from, int to)
-{
-    //Q_UNUSED(vFrom);
-    qDebug() << vFrom << from << to;
-    lines.move(to, vFrom);
-}
-*/

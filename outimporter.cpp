@@ -25,7 +25,7 @@ QVector<LogLine> OutImporter::import(QWidget *parent, QString path)
 
     QVector <LogLine> lines;
 
-    for (QString line : textLines) {
+    for (QString& line : textLines) {
         QStringList l = line.split(';');
         LogLine temp(l.at(0), l.at(1).toInt());
         temp.reprint = l.at(2) == "1" ? true : false;
