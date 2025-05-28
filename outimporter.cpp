@@ -1,7 +1,7 @@
 #include "outimporter.h"
 
 #include <QFile>
-#include <QTextStream>
+#include <QDataStream>
 #include <QFileDialog>
 
 OutImporter::OutImporter() {}
@@ -16,11 +16,21 @@ QVector<LogLine> OutImporter::import(QWidget *parent, QString path)
     if (!file.open(QIODevice::ReadOnly))
         return QVector <LogLine> ();
 
-    QTextStream in(&file);
+    QDataStream in(&file);
 
     QStringList textLines;
+    QByteArray data;
+    char buf;
     while (!in.atEnd()) {
-        textLines.push_back(in.readLine());
+        in.readRawData(&buf, sizeof(buf));
+        if (buf == '\n') {
+            QString temp = QString::fromUtf8(data);
+            temp.remove('\r');
+            textLines.push_back(temp);
+            data.clear();
+        } else {
+            data.push_back(buf);
+        }
     }
 
     QVector <LogLine> lines;
