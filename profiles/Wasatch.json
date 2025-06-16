@@ -1,0 +1,25 @@
+{
+    "allowDubs": true,
+    "countEnd": "шт",
+    "countOffsets": [
+        0,
+        0
+    ],
+    "countStart": "_",
+    "countsEnabled": true,
+    "filters": [
+        [
+            "Layout",
+            true
+        ]
+    ],
+    "invertedListOrder": false,
+    "markersEnabled": true,
+    "nameEnd": " 0\"",
+    "nameOffsets": [
+        0,
+        0
+    ],
+    "nameStart": "\"0 ",
+    "splitter": "\\n"
+}

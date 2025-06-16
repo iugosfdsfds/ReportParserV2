@@ -1,0 +1,25 @@
+{
+    "allowDubs": true,
+    "countEnd": "_ШТ_",
+    "countOffsets": [
+        0,
+        0
+    ],
+    "countStart": "_",
+    "countsEnabled": false,
+    "filters": [
+        [
+            "Computer",
+            true
+        ]
+    ],
+    "invertedListOrder": true,
+    "markersEnabled": false,
+    "nameEnd": "",
+    "nameOffsets": [
+        0,
+        0
+    ],
+    "nameStart": "Name = ",
+    "splitter": "\\n"
+}

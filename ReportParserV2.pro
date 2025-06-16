@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui testlib
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,7 +25,8 @@ SOURCES += \
     mainwindow.cpp \
     outimporter.cpp \
     rawreport.cpp \
-    reportmodel.cpp
+    reportmodel.cpp \
+    tests/parsingtest.cpp
 
 HEADERS += \
     dialogs/configwindow.h \
@@ -37,6 +38,7 @@ HEADERS += \
     outimporter.h \
     rawreport.h \
     reportmodel.h \
+    tests/parsingtest.h \
     version.h
 
 FORMS += \

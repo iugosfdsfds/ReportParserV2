@@ -71,11 +71,13 @@ Thumbs.db
 *.exe
 
 src/
+!TEST/src/*
+!TEST/src/*.json
 debug/
 release/
 build/
 leaks.xml
-*.json
+/*.json
 *.png
 *.psd
 *.TMP

@@ -13,7 +13,7 @@ ConfigWindow::ConfigWindow(QWidget *parent, Config *config, QString configFileNa
     ui->setupUi(this);
     _config = config;
     configFile = configFileName;
-    ui->label_verison->setText("v"+QString(APP_VERSION));
+    ui->label_version->setText("v"+QString(APP_VERSION));
 
     updateLines();
 }
