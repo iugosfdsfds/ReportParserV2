@@ -25,8 +25,7 @@ SOURCES += \
     mainwindow.cpp \
     outimporter.cpp \
     rawreport.cpp \
-    reportmodel.cpp \
-    tests/parsingtest.cpp
+    reportmodel.cpp
 
 HEADERS += \
     dialogs/configwindow.h \
@@ -38,7 +37,6 @@ HEADERS += \
     outimporter.h \
     rawreport.h \
     reportmodel.h \
-    tests/parsingtest.h \
     version.h
 
 FORMS += \
