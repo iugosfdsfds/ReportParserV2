@@ -68,6 +68,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(allOrders, SIGNAL(editingFinished()), this, SLOT(permitDelete()));
     connect(currentOrders, SIGNAL(editingFinished()), this, SLOT(permitDelete()));
+
+    connect(ui->lineEdit_addNote, SIGNAL(focused()), this, SLOT(forbidDelete()));
+    connect(ui->lineEdit_addNote, SIGNAL(unfocused()), this, SLOT(permitDelete()));
+
 }
 
 MainWindow::~MainWindow()
@@ -383,6 +387,11 @@ void MainWindow::on_tableView_current_doubleClicked(const QModelIndex &index)
     preventDelete = true;
 }
 
+void MainWindow::forbidDelete()
+{
+    preventDelete = true;
+}
+
 void MainWindow::permitDelete()
 {
     preventDelete = false;
@@ -432,6 +441,7 @@ void MainWindow::on_pushButton_insertNote_clicked()
 {
     if (ui->lineEdit_addNote->text().isEmpty()) return;
     LogLine temp(ui->lineEdit_addNote->text(), 1);
+    temp.info = true;
     allOrders->addLines(temp);
 }
 
@@ -439,4 +449,3 @@ void MainWindow::on_action_open_triggered()
 {
     loadCSVFile();
 }
-

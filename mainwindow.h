@@ -74,6 +74,8 @@ private slots:
 
     void on_tableView_current_doubleClicked(const QModelIndex &index);
 
+    void forbidDelete();
+
     void permitDelete();
 
     void on_pushButton_moveTop_clicked();

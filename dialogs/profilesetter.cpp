@@ -94,7 +94,7 @@ void ProfileSetter::on_pushButton_apply_clicked()
 
 void ProfileSetter::on_pushButton_load_clicked()
 {
-    QString file = QFileDialog::getOpenFileName(this, "Выберите файл шаблона", QDir::homePath(), "JSON (*.json)");
+    QString file = QFileDialog::getOpenFileName(this, "Выберите файл шаблона", QApplication::applicationDirPath() , "JSON (*.json)");
     if (file == "")
         return;
 

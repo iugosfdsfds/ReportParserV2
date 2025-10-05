@@ -1,8 +1,11 @@
-QT       += core gui testlib
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++11 \
+    static
+
+QMAKE_LFLAGS += -static -static-libgcc -static-libstdc++
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -16,6 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    customlineedit.cpp \
     dialogs/configwindow.cpp \
     dialogs/profilesetter.cpp \
     lib/config.cpp \
@@ -28,6 +32,7 @@ SOURCES += \
     reportmodel.cpp
 
 HEADERS += \
+    customlineedit.h \
     dialogs/configwindow.h \
     dialogs/profilesetter.h \
     lib/config.h \

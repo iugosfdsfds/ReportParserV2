@@ -15,7 +15,7 @@ struct LogLine
     QString clearName = "Info";
     bool reprint = false;
     bool urgent = false;
-    bool info = true;
+    bool info = false;
 
     bool out = true;
 

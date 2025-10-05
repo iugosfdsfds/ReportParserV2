@@ -32,10 +32,8 @@ void LogLine::updateData()
         clearName = name;
         clearName.remove(index+"_");
         clearName = clearName.section("", 0, clearName.indexOf("__"));
-        info = false;
     } else {
         index = "0";
         clearName = "Info";
-        info = true;
     }
 }
