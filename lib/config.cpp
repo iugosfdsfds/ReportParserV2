@@ -8,6 +8,7 @@
 
 #define OUT_FILE "outFile"
 #define LAST_USED "lastUsed"
+#define LAST_FILES "lastUsedFiles"
 #define LAST_PROFILE "lastUsedProfile"
 #define COUNT_SIGN "countSign"
 #define SPLITTER "splitter"
@@ -28,7 +29,10 @@ bool Config::toJson(QString file)
     QJsonObject root;
 
     root.insert(OUT_FILE, outFile);
-    root.insert(LAST_USED, lastUsedFile);
+
+    QJsonArray lastFiles = QJsonArray::fromStringList(lastUsedFiles);
+
+    root.insert(LAST_FILES, lastFiles);
     root.insert(LAST_PROFILE, lastUsedProfile);
     root.insert(COUNT_SIGN, countSign);
     root.insert(SPLITTER, splitter);
@@ -65,8 +69,18 @@ bool Config::fromJson(QString file)
 
     if (root.contains(OUT_FILE))
         outFile = root.value(OUT_FILE).toString();
+
+    if (root.contains((LAST_FILES))) {
+        for (QVariant &v : root.value(LAST_FILES).toArray().toVariantList()) {
+            lastUsedFiles.push_back(v.toString());
+        }
+    }
+
+    //----- will be removed later
     if (root.contains(LAST_USED))
-        lastUsedFile = root.value(LAST_USED).toString();
+        lastUsedFiles.push_back(root.value(LAST_USED).toString());
+    //-----
+
     if (root.contains(LAST_PROFILE))
         lastUsedProfile = root.value(LAST_PROFILE).toString();
     if (root.contains(COUNT_SIGN))

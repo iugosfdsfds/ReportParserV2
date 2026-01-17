@@ -2,6 +2,7 @@
 #define CONFIG_H
 
 #include <QString>
+#include <QStringList>
 #include <QVector>
 
 struct Config
@@ -9,6 +10,7 @@ struct Config
     QString outFile = "";
 
     QString lastUsedFile = "";
+    QStringList lastUsedFiles;
     QString lastUsedProfile = "";
 
     QString countSign = "";

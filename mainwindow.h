@@ -66,8 +66,6 @@ private slots:
 
     void on_pushButton_allExport_clicked();
 
-    void on_lineEdit_inFile_textChanged(const QString &arg1);
-
     void on_pushButton_join_clicked();
 
     void on_tableView_all_doubleClicked(const QModelIndex &index);
@@ -89,6 +87,8 @@ private slots:
     void on_pushButton_insertNote_clicked();
 
     void on_action_open_triggered();
+
+    void on_lineEdit_inFile_editingFinished();
 
 private:
     Ui::MainWindow *ui;

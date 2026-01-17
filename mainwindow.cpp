@@ -53,8 +53,12 @@ MainWindow::MainWindow(QWidget *parent)
     if (!config->leftShown)
         ui->leftBox->hide();
 
-    if (config->lastUsedFile != "") {
-        ui->lineEdit_inFile->setText(config->lastUsedFile);
+    if (!config->lastUsedFiles.isEmpty()) {
+        QString text;
+        for (QString &s : config->lastUsedFiles) {
+            text += s + ';';
+        }
+        ui->lineEdit_inFile->setText(text);
         updateCurrent();
     }
 
@@ -128,14 +132,23 @@ QVector<int> MainWindow::getSelected(QTableView *table)
 
 bool MainWindow::updateCurrent()
 {
-    RawReport rep(config->lastUsedFile, profile);
-    ui->lineEdit_inFile->setText(config->lastUsedFile);
-    if (!rep.parsed()) {
-        currentOrders->clearAll();
-        return false;
+    QString text;
+    for (QString &s : config->lastUsedFiles) {
+        text += s + ';';
     }
-    currentOrders->setLines(&rep);
-    return true;
+    ui->lineEdit_inFile->setText(text);
+    currentOrders->clearAll();
+    for (QString &s : config->lastUsedFiles) {
+        RawReport rep(s, profile);
+        if (rep.parsed()) {
+            currentOrders->addLines(rep.getLines());
+        }
+    }
+    if (currentOrders->getSize() == 0) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 bool MainWindow::loadCSVFile()
@@ -210,7 +223,9 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 void MainWindow::dropEvent(QDropEvent *event)
 {
     if (event->mimeData()->hasUrls()) {
-        config->lastUsedFile = event->mimeData()->urls()[0].toLocalFile();
+        for (QUrl &u : event->mimeData()->urls()) {
+            config->lastUsedFiles.push_back(u.toLocalFile());
+        }
         if (updateCurrent())
             ui->statusbar->showMessage("Файл прочитан", 3000);
         else
@@ -262,13 +277,13 @@ void MainWindow::on_pushButton_reload_clicked()
 void MainWindow::on_pushButton_selectFile_clicked()
 {
     QString dir = QString();
-    if (config->lastUsedFile != "")
-        dir = QFileInfo(config->lastUsedFile).filePath();
-    QString file = QFileDialog::getOpenFileName(this, "Открыть файл", dir);
-    if (file == "")
+    if (!config->lastUsedFiles.isEmpty())
+        dir = QFileInfo(config->lastUsedFiles.at(0)).filePath();
+    QStringList files = QFileDialog::getOpenFileNames(this, "Открыть файл", dir);
+    if (files.isEmpty())
         return;
 
-    config->lastUsedFile = file;
+    config->lastUsedFiles = files;
     if (updateCurrent()) {
         ui->statusbar->showMessage("Файл прочитан", 3000);
     } else
@@ -278,7 +293,7 @@ void MainWindow::on_pushButton_selectFile_clicked()
 void MainWindow::on_pushButton_savePreset_clicked()
 {
     if (selectedPreset != -1)
-        config->presets[selectedPreset] = config->lastUsedFile;
+        config->presets[selectedPreset] = config->lastUsedFiles.at(0);
     ui->statusbar->showMessage("Пресет записан", 3000);
 }
 
@@ -353,12 +368,6 @@ void MainWindow::on_pushButton_allExport_clicked()
         ui->statusbar->showMessage("Файл сгенерирован", 3000);
     else if (status == 2)
         ui->statusbar->showMessage("Выводной файл не указан", 3000);
-}
-
-void MainWindow::on_lineEdit_inFile_textChanged(const QString &arg1)
-{
-    config->lastUsedFile = arg1;
-    updateCurrent();
 }
 
 void MainWindow::on_pushButton_join_clicked()
@@ -449,3 +458,11 @@ void MainWindow::on_action_open_triggered()
 {
     loadCSVFile();
 }
+
+void MainWindow::on_lineEdit_inFile_editingFinished()
+{
+    config->lastUsedFiles.clear();
+    config->lastUsedFiles = ui->lineEdit_inFile->text().split(';');
+    updateCurrent();
+}
+
